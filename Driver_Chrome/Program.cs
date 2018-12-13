@@ -28,7 +28,6 @@ namespace Driver_Chrome
             driver.FindElement(By.XPath("//a[contains(text(), 'My Portfolio')]")).Click();
             driver.FindElement(By.XPath("//tr[@data-key='p_0']//td[1]")).Click();
 
-            //Find the Search text box using xpath
             IList<IWebElement> stockNames = driver.FindElements(By.ClassName("_61PYt"));
 
             for(int i = 0; i < stockNames.Count; i++)
