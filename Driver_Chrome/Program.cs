@@ -16,7 +16,7 @@ namespace Driver_Chrome
             IWebDriver driver = new ChromeDriver("C:\\Users\\klync\\Source\\Repos\\Driver_Chrome\\Driver_Chrome");
 
             //Navigate to Yahoo finanace page
-            driver.Navigate().GoToUrl("https://login.yahoo.com/?.src=finance&.intl=us&authMechanism=primary&done=https%3A%2F%2Ffinance.yahoo.com%2Fscreener%2Fpredefined&eid=100&add=1");
+            driver.Navigate().GoToUrl("https://login.yahoo.com/config/login?.src=fpctx&.intl=us&.lang=en-US&.done=https%3A%2F%2Fwww.yahoo.com");
 
             //Maximize the window
             driver.Manage().Window.Maximize();
@@ -25,14 +25,21 @@ namespace Driver_Chrome
             driver.FindElement(By.Id("login-username")).SendKeys("" + Keys.Enter);
             driver.FindElement(By.Id("login-passwd")).SendKeys("" + Keys.Enter);
 
-            driver.FindElement(By.XPath("//a[contains(text(), 'My Portfolio')]")).Click();
-            driver.FindElement(By.XPath("//tr[@data-key='p_0']//td[1]")).Click();
+            //Navigate to my portfolio page
+            driver.Navigate().GoToUrl("https://finance.yahoo.com/portfolio/p_0/view/v1");
 
-            IList<IWebElement> stockNames = driver.FindElements(By.ClassName("_61PYt"));
+            //driver.FindElement(By.XPath("//a[contains(text(), 'My Portfolio')]")).Click();
+            //driver.FindElement(By.XPath("//tr[@data-key='p_0']//td[1]")).Click();
 
-            for(int i = 0; i < stockNames.Count; i++)
+            // close pop-up box
+            var alert = driver.FindElement(By.XPath("//dialog[@id = '__dialog']/section/button"));
+            alert.Click();
+
+            System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> symbol = driver.FindElements(By.ClassName("_1_2Qy"));
+
+            for (int i = 0; i < symbol.Count; i++)
             {
-                Console.WriteLine(stockNames[i].Text);
+                Console.WriteLine(symbol[i].Text);
             }
 
             //Close the browser
