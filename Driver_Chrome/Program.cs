@@ -42,7 +42,7 @@ namespace Driver_Chrome
                 Console.WriteLine(symbol[i].Text);
             }
 
-            //Close the browser
+            // Close the browser
             driver.Close();
         }
     }
