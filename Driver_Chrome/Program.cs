@@ -36,11 +36,18 @@ namespace Driver_Chrome
             alert.Click();
 
             System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> symbol = driver.FindElements(By.ClassName("_1_2Qy"));
+            System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> currency = driver.FindElements(By.ClassName("aVPt9"));
 
             for (int i = 0; i < symbol.Count; i++)
             {
                 Console.WriteLine(symbol[i].Text);
             }
+
+            for (int i = 0; i < currency.Count; i++)
+            {
+                Console.WriteLine(currency[i].Text);
+            }
+
 
             // Close the browser
             driver.Close();
