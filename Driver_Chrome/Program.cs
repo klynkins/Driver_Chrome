@@ -28,9 +28,6 @@ namespace Driver_Chrome
             //Navigate to my portfolio page
             driver.Navigate().GoToUrl("https://finance.yahoo.com/portfolio/p_0/view/v1");
 
-            //driver.FindElement(By.XPath("//a[contains(text(), 'My Portfolio')]")).Click();
-            //driver.FindElement(By.XPath("//tr[@data-key='p_0']//td[1]")).Click();
-
             // close pop-up alert
             var alert = driver.FindElement(By.XPath("//dialog[@id = '__dialog']/section/button"));
             alert.Click();
