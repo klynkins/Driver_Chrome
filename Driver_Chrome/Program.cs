@@ -15,7 +15,7 @@ namespace Driver_Chrome
             // Create a driver instance for chromedriver
             IWebDriver driver = new ChromeDriver("C:\\Users\\klync\\Source\\Repos\\Driver_Chrome\\Driver_Chrome");
 
-            //Navigate to Yahoo finanace page
+            //Navigate to Yahoo finance page
             driver.Navigate().GoToUrl("https://login.yahoo.com/config/login?.src=fpctx&.intl=us&.lang=en-US&.done=https%3A%2F%2Fwww.yahoo.com");
 
             //Maximize the window
