@@ -1,10 +1,11 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support;
 
 namespace Driver_Chrome
 {
@@ -12,35 +13,49 @@ namespace Driver_Chrome
     {
         static void Main(string[] args)
         {
-            // Create a driver instance for chromedriver
-            IWebDriver driver = new ChromeDriver("C:\\Users\\klync\\Source\\Repos\\Driver_Chrome\\Driver_Chrome");
+            var options = new ChromeOptions();
+            options.AddArgument("--headless");
+            options.AddArguments("--disable-gpu");
+            options.AddArguments("disable-popup-blocking");
 
-            //Navigate to Yahoo finance page
-            driver.Navigate().GoToUrl("https://login.yahoo.com/config/login?.src=fpctx&.intl=us&.lang=en-US&.done=https%3A%2F%2Fwww.yahoo.com");
+            var chromeDriver = new ChromeDriver("C:\\Users\\klync\\Source\\Repos\\Driver_Chrome\\Driver_Chrome", options);
 
-            //Maximize the window
-            driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(8);
+            chromeDriver.Navigate().GoToUrl("https://login.yahoo.com/");
+            chromeDriver.Manage().Window.Maximize();
 
-            driver.FindElement(By.Id("login-username")).SendKeys("" + Keys.Enter);
-            driver.FindElement(By.Id("login-passwd")).SendKeys("" + Keys.Enter);
+            chromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            chromeDriver.FindElement(By.Id("login-username")).SendKeys("" + Keys.Enter);
+           
+            chromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            chromeDriver.FindElement(By.Id("login-passwd")).SendKeys("" + Keys.Enter);
 
-            //Navigate to my portfolio page
-            driver.Navigate().GoToUrl("https://finance.yahoo.com/portfolio/p_0/view/v1");
+            chromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            chromeDriver.Url = ("https://finance.yahoo.com/portfolio/p_0/view/v1");
 
-            // close pop-up alert
-            var alert = driver.FindElement(By.XPath("//dialog[@id = '__dialog']/section/button"));
-            alert.Click();
+            var closePopup = chromeDriver.FindElementByXPath("//dialog[@id = '__dialog']/section/button");
+            closePopup.Click();
 
-            System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> symbol = driver.FindElements(By.ClassName("_1_2Qy"));
+            IWebElement list = chromeDriver.FindElement(By.TagName("tbody"));
+            System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> stocks = list.FindElements(By.TagName("tr"));
             
-            for (int i = 0; i < symbol.Count; i++)
-            {
-                Console.WriteLine(symbol[i].Text);
-            }
+            Console.WriteLine("Info on stocks in Katelynn's Portfolio: " + stocks.Count);
 
-            // Close the browser
-            driver.Close();
+            for (int i = 1; i < stocks.Count; i++)
+            {
+                var symbol = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[1]/span/a")).Text;
+                //var lastPrice = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[2]/span")).Text;
+                var change = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[3]/span")).Text;
+                //var pChange = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[4]/span")).Text;
+                //var currency = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[5]")).Text;
+                //var volume = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[7]/span")).Text;
+                //var avgVolume = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[9]")).Text;
+                //var marketCap = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[13]/span")).Text;
+
+                Console.WriteLine(symbol + " " + change); //+ lastPrice " " + change); //+ " " + pChange + " " + currency + " " + volume + " " + avgVolume + " " + marketCap//);
+            }
+            Console.WriteLine("\n");
+
+            chromeDriver.Close();
         }
     }
 }
