@@ -51,7 +51,7 @@ namespace Driver_Chrome
                 //var avgVolume = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[9]")).Text;
                 //var marketCap = chromeDriver.FindElement(By.XPath("//*[@id=\"main\"]/section/section[2]/div[2]/table/tbody/tr[" + i + "]/td[13]/span")).Text;
 
-                Console.WriteLine(symbol + " " + change); //+ lastPrice " " + change); //+ " " + pChange + " " + currency + " " + volume + " " + avgVolume + " " + marketCap//);
+                Console.WriteLine(symbol + " " + change); //+ lastPrice " " + change); + " " + pChange + " " + currency + " " + volume + " " + avgVolume + " " + marketCap//);
             }
             Console.WriteLine("\n");
 
